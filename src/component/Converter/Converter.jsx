@@ -2,12 +2,14 @@ import './Converter.css';
 import {useState} from "react";
 
 export const Converter = function () {
-    const [unitMeter, setUnitMeter] = useState('m');
-    const [unitLiter, setUnitLiter] = useState('l');
+    const [unitMeter, setUnitMeter] = useState('mm');
+    const [unitLiter, setUnitLiter] = useState('ml');
     const [conversionUnitMeter, setConversionUnitMeter] = useState('m');
     const [conversionUnitLiter, setConversionUnitLiter] = useState('l');
-    const [result, setResult] = useState('');
-    const [value, setValue] = useState('');
+    const [resultMeter, setResultMeter] = useState('');
+    const [resultLiter, setResultLiter] = useState('');
+    const [valueMeter, setValueMeter] = useState('');
+    const [valueLiter, setValueLiter] = useState('');
 
     const handleChangeUnitMeter = (e) => {
         setUnitMeter(e.target.value);
@@ -18,13 +20,79 @@ export const Converter = function () {
     }
 
     const handleConvertMeter = () => {
-        const conversion = convertMeter[unitMeter][unitLiter] * value;
-        setResult(conversion);
+        let conversion = parseFloat(valueMeter);
+        if (unitMeter === 'mm') {
+            if (conversionUnitMeter === 'cm') {
+                conversion = conversion / 10;
+            } else if (conversionUnitMeter === 'dm') {
+                conversion = conversion / 100;
+            } else if (conversionUnitMeter === 'm') {
+                conversion = conversion / 1000;
+            }
+        } else if (unitMeter === 'cm') {
+            if (conversionUnitMeter === 'mm') {
+                conversion = conversion * 10;
+            } else if (conversionUnitMeter === 'dm') {
+                conversion = conversion / 10;
+            } else if (conversionUnitMeter === 'm') {
+                conversion = conversion / 100;
+            }
+        } else if (unitMeter === 'dm') {
+            if (conversionUnitMeter === 'mm') {
+                conversion = conversion * 100;
+            } else if (conversionUnitMeter === 'cm') {
+                conversion = conversion * 10;
+            } else if (conversionUnitMeter === 'm') {
+                conversion = conversion / 10;
+            }
+        } else if (unitMeter === 'm') {
+            if (conversionUnitMeter === 'mm') {
+                conversion = conversion * 1000;
+            } else if (conversionUnitMeter === 'cm') {
+                conversion = conversion * 100;
+            } else if (conversionUnitMeter === 'dm') {
+                conversion = conversion * 10;
+            }
+        }
+        setResultMeter(conversion);
     };
 
     const handleConvertLiter = () => {
-        const conversion = convertLiter[unitLiter][unitMeter] * value;
-        setResult(conversion);
+        let conversion = parseFloat(valueLiter);
+        if (unitLiter === 'ml') {
+            if (conversionUnitLiter === 'cl') {
+                conversion = conversion / 10;
+            } else if (conversionUnitLiter === 'dl') {
+                conversion = conversion / 100;
+            } else if (conversionUnitLiter === 'l') {
+                conversion = conversion / 1000;
+            }
+        } else if (unitLiter === 'cl') {
+            if (conversionUnitLiter === 'ml') {
+                conversion = conversion * 10;
+            } else if (conversionUnitLiter === 'dl') {
+                conversion = conversion / 10;
+            } else if (conversionUnitLiter === 'l') {
+                conversion = conversion / 100;
+            }
+        } else if (unitLiter === 'dl') {
+            if (conversionUnitLiter === 'ml') {
+                conversion = conversion * 100;
+            } else if (conversionUnitLiter === 'cl') {
+                conversion = conversion * 10;
+            } else if (conversionUnitLiter === 'l') {
+                conversion = conversion / 10;
+            }
+        } else if (unitLiter === 'l') {
+            if (conversionUnitLiter === 'ml') {
+                conversion = conversion * 1000;
+            } else if (conversionUnitLiter === 'cl') {
+                conversion = conversion * 100;
+            } else if (conversionUnitLiter === 'dl') {
+                conversion = conversion * 10;
+            }
+        }
+        setResultLiter(conversion);
     };
 
     const handleChangeConversionUnitMeter = (e) => {
@@ -35,50 +103,19 @@ export const Converter = function () {
         setConversionUnitLiter(e.target.value);
     };
 
-    const convertMeter = {
-        m: {
-            cm: 100,
-            dm: 10,
-            mm: 1000,
-        },
-        dm: {
-            cm: 10,
-            m: 0.1,
-            mm: 100,
-        },
-        cm: {
-            m: 0.01,
-            dm: 0.1,
-            mm: 10,
-        },
-        mm: {
-            cm: 0.1,
-            m: 0.001,
-            dm: 0.01,
-        },
+    const handleChangeValueMeter = (e) => {
+        setValueMeter(e.target.value);
     };
 
-    const convertLiter = {
-        l: {
-            cl: 100,
-            dl: 10,
-            ml: 1000,
-        },
-        dl: {
-            cl: 10,
-            l: 0.1,
-            ml: 100,
-        },
-        cl: {
-            l: 0.01,
-            dl: 0.1,
-            ml: 10,
-        },
-        ml: {
-            cl: 0.1,
-            l: 0.001,
-            dl: 0.01,
-        },
+    const handleChangeValueLiter = (e) => {
+        setValueLiter(e.target.value);
+    };
+
+    const handleReset = () => {
+        setValueMeter('');
+        setValueLiter('')
+        setResultMeter('');
+        setResultLiter('');
     };
 
     return (
@@ -87,7 +124,7 @@ export const Converter = function () {
                 <>
                     <div className='enterValueMeter'>
                         <p>Valeur à convertir : </p>
-                        <input type="number"/>
+                        <input type="number" onChange={handleChangeValueMeter} />
                         <select name="unitMeterSelect" id="unitMeterSelect" value={unitMeter} onChange={handleChangeUnitMeter}>
                             <option value="mm">mm</option>
                             <option value="cm">cm</option>
@@ -107,7 +144,7 @@ export const Converter = function () {
                     </div>
                     <div>
                         <label>Résultat:</label>
-                        <input type="number" value={result} disabled/>
+                        <input type="number" value={resultMeter} disabled/>
                         <button onClick={handleConvertMeter}>Convertir</button>
                     </div>
 
@@ -118,7 +155,7 @@ export const Converter = function () {
                 <>
                     <div className='EnterValueLiter'>
                         <p>Valeur à convertir : </p>
-                        <input type="number"/>
+                        <input type="number" onChange={handleChangeValueLiter} />
                         <select name="unitLiterSelect" id="unitLiterSelect" value={unitLiter} onChange={handleChangeUnitLiter}>
                             <option value="ml">ml</option>
                             <option value="cl">cl</option>
@@ -139,8 +176,11 @@ export const Converter = function () {
                     </div>
                     <div>
                         <label>Résultat:</label>
-                        <input type="number" value={result} disabled/>
+                        <input type="number" value={resultLiter} disabled/>
                         <button onClick={handleConvertLiter}>Convertir</button>
+                    </div>
+                    <div>
+                        <button onClick={handleReset}>Reset</button>
                     </div>
                 </>
             }
