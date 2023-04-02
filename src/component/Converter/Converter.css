@@ -1,0 +1,20 @@
+.meter, .liter {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+input, select {
+    padding: 0.2rem;
+}
+
+.reset {
+    margin-top: 2rem;
+    padding: 0.2rem;
+}
+
+.object {
+    font-weight: bold;
+    text-decoration: underline;
+}

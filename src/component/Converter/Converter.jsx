@@ -6,11 +6,12 @@ export const Converter = function () {
     const [unitLiter, setUnitLiter] = useState('ml');
     const [conversionUnitMeter, setConversionUnitMeter] = useState('m');
     const [conversionUnitLiter, setConversionUnitLiter] = useState('l');
-    const [resultMeter, setResultMeter] = useState('');
-    const [resultLiter, setResultLiter] = useState('');
     const [valueMeter, setValueMeter] = useState('');
     const [valueLiter, setValueLiter] = useState('');
+    const [resultMeter, setResultMeter] = useState('');
+    const [resultLiter, setResultLiter] = useState('');
 
+    //Update value status and stock
     const handleChangeUnitMeter = (e) => {
         setUnitMeter(e.target.value);
     }
@@ -18,7 +19,7 @@ export const Converter = function () {
     const handleChangeUnitLiter = (e) => {
         setUnitLiter(e.target.value)
     }
-
+//Calculate conversions
     const handleConvertMeter = () => {
         let conversion = parseFloat(valueMeter);
         if (unitMeter === 'mm') {
@@ -95,6 +96,7 @@ export const Converter = function () {
         setResultLiter(conversion);
     };
 
+    //Updates as soon as the output value of the select is changed
     const handleChangeConversionUnitMeter = (e) => {
         setConversionUnitMeter(e.target.value);
     };
@@ -103,6 +105,7 @@ export const Converter = function () {
         setConversionUnitLiter(e.target.value);
     };
 
+    // updates each time the input is modified
     const handleChangeValueMeter = (e) => {
         setValueMeter(e.target.value);
     };
@@ -122,66 +125,77 @@ export const Converter = function () {
         <>
             {unitMeter &&
                 <>
-                    <div className='enterValueMeter'>
-                        <p>Valeur à convertir : </p>
-                        <input type="number" onChange={handleChangeValueMeter} />
-                        <select name="unitMeterSelect" id="unitMeterSelect" value={unitMeter} onChange={handleChangeUnitMeter}>
-                            <option value="mm">mm</option>
-                            <option value="cm">cm</option>
-                            <option value="dm">dm</option>
-                            <option value="m">m</option>
-                        </select>
-                    </div>
+                    <div className='meter'>
+                        <p className='object'>Conversion de mesure : </p>
+                        <div className='enterValueMeter'>
+                            <p>Valeur à convertir : </p>
+                            <input type="number" onChange={handleChangeValueMeter}/>
+                            <select name="unitMeterSelect" id="unitMeterSelect" value={unitMeter}
+                                    onChange={handleChangeUnitMeter}>
+                                <option value="mm">mm</option>
+                                <option value="cm">cm</option>
+                                <option value="dm">dm</option>
+                                <option value="m">m</option>
+                            </select>
+                        </div>
 
-                    <div className='endingValueMeter'>
-                        <p>Conversion</p>
-                        <select name="unitMeter" id="unitMeter" value={conversionUnitMeter} onChange={handleChangeConversionUnitMeter}>
-                            <option value="mm">mm</option>
-                            <option value="cm">cm</option>
-                            <option value="dm">dm</option>
-                            <option value="m">m</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label>Résultat:</label>
-                        <input type="number" value={resultMeter} disabled/>
-                        <button onClick={handleConvertMeter}>Convertir</button>
-                    </div>
+                        <div className='endingValueMeter'>
+                            <p>Mesure souhaitée</p>
+                            <select name="unitMeter" id="unitMeter" value={conversionUnitMeter}
+                                    onChange={handleChangeConversionUnitMeter}>
+                                <option value="mm">mm</option>
+                                <option value="cm">cm</option>
+                                <option value="dm">dm</option>
+                                <option value="m">m</option>
+                            </select>
+                        </div>
 
+                        <div>
+                            <label>Résultat: </label>
+                            <input type="number" value={resultMeter} disabled/>
+                            <button onClick={handleConvertMeter}>Convertir</button>
+                        </div>
+                    </div>
                 </>
             }
 
             {unitLiter &&
                 <>
-                    <div className='EnterValueLiter'>
-                        <p>Valeur à convertir : </p>
-                        <input type="number" onChange={handleChangeValueLiter} />
-                        <select name="unitLiterSelect" id="unitLiterSelect" value={unitLiter} onChange={handleChangeUnitLiter}>
-                            <option value="ml">ml</option>
-                            <option value="cl">cl</option>
-                            <option value="dl">dl</option>
-                            <option value="l">l</option>
-                        </select>
-                    </div>
+                    <div className='liter'>
+                        <p className='object'>Conversion de volume : </p>
+                        <div className='EnterValueLiter'>
+                            <p>Valeur à convertir : </p>
+                            <input type="number" onChange={handleChangeValueLiter}/>
+                            <select name="unitLiterSelect" id="unitLiterSelect" value={unitLiter}
+                                    onChange={handleChangeUnitLiter}>
+                                <option value="ml">ml</option>
+                                <option value="cl">cl</option>
+                                <option value="dl">dl</option>
+                                <option value="l">l</option>
+                            </select>
+                        </div>
 
-                    <div className='endingValueLiter'>
-                        <p>Conversion : </p>
+                        <div className='endingValueLiter'>
+                            <p>Volume souhaité : </p>
 
-                        <select name="unitLiter" id="unitLiter" value={conversionUnitLiter} onChange={handleChangeConversionUnitLiter}>
-                            <option value="ml">ml</option>
-                            <option value="cl">cl</option>
-                            <option value="dl">dl</option>
-                            <option value="l">l</option>
-                        </select>
+                            <select name="unitLiter" id="unitLiter" value={conversionUnitLiter}
+                                    onChange={handleChangeConversionUnitLiter}>
+                                <option value="ml">ml</option>
+                                <option value="cl">cl</option>
+                                <option value="dl">dl</option>
+                                <option value="l">l</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Résultat: </label>
+                            <input type="number" value={resultLiter} disabled/>
+                            <button onClick={handleConvertLiter}>Convertir</button>
+                        </div>
                     </div>
-                    <div>
-                        <label>Résultat:</label>
-                        <input type="number" value={resultLiter} disabled/>
-                        <button onClick={handleConvertLiter}>Convertir</button>
-                    </div>
-                    <div>
+                    <div className='reset'>
                         <button onClick={handleReset}>Reset</button>
                     </div>
+
                 </>
             }
         </>
